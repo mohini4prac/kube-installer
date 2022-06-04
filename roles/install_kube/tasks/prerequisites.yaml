@@ -34,7 +34,7 @@
 - name: "Stop firewalld"
   service:
     name: firewalld
-    status: stopped
+    state: stopped
 
 - name: "Disable firewalld"
   sysctl:
