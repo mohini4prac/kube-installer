@@ -12,7 +12,8 @@
 - name: "Update 10-kubeadm.conf"
   copy:
     src: 10-kubeadm.conf
-    desc: /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+    dest: /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+
 - name: start kubelet
   service:
     name: kubelet
