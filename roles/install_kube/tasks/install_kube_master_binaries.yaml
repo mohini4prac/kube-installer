@@ -8,13 +8,4 @@
   copy:
     src: kubeadm-kubelet.yaml
     dest: /root/kubeadm-kubelet.yaml
-- name: "Work around for containerd"
-  block:
-    - name: "Remove /etc/containerd/config.toml"
-      file:
-        path: /etc/containerd/config.toml
-        state: absent
-    - name: "Restart  containerd"
-      service:
-        name: containerd
-        state: restarted
+
