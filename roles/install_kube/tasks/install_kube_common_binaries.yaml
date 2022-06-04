@@ -14,11 +14,25 @@
     src: 10-kubeadm.conf
     dest: /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
+- name: "Create  /etc/docker/daemon.json"
+  copy:
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
+    dest:  /etc/docker/daemon.json
+
 - name: "Reload deamon"
   systemd:
     daemon_reload: yes
 
-- name: start kubelet
+- name: Restart docker
+  service:
+    name: docker
+    enabled: yes
+    state: restarted
+
+- name: Restart kubelet
   service:
     name: kubelet
     enabled: yes
