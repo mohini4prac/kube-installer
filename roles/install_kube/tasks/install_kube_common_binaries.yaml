@@ -14,8 +14,12 @@
     src: 10-kubeadm.conf
     dest: /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
+- name: "Reload deamon"
+  systemd:
+    daemon_reload: yes
+
 - name: start kubelet
   service:
     name: kubelet
     enabled: yes
-    state: started
+    state: restarted
