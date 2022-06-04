@@ -52,3 +52,8 @@
       service:
         name: containerd
         state: restarted
+
+- name: "Install bash completion"
+  yum:
+    name: "bash-completion"
+    state: present
