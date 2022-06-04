@@ -1,7 +1,7 @@
 - name: install kubelet
   yum:
     name: "kubelet-{{ kube_version }}"
-    state: present
+    state: latest
     update_cache: true
 
 - name: install kubeadm
