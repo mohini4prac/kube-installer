@@ -11,13 +11,6 @@
   command: swapoff -a
   when: ansible_swaptotal_mb > 0
 
-- name: disable SELinux
-  command: setenforce 0
-
-- name: disable SELinux on reboot
-  selinux:
-    state: disabled
-
 - name: ensure net.bridge.bridge-nf-call-ip6tables is set to 1
   sysctl:
     name: net.bridge.bridge-nf-call-ip6tables
