@@ -14,7 +14,7 @@
     - name: "Install kube binaries"
       include_role:
         name: install_kube
-        tasks_from: install_kube_master_binaries.yaml
+        tasks_from: install_kube_common_binaries.yaml
 
 - name: "Install Docker Kubernetes on CentOS "
   hosts: workers
@@ -31,4 +31,4 @@
     - name: "Install kube binaries"
       include_role:
         name: install_kube
-        tasks_from: install_kube_worker_binaries.yaml
+        tasks_from: install_kube_common_binaries.yaml
