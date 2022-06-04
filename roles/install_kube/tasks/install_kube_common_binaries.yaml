@@ -1,4 +1,6 @@
 - name: install kubelet
+  tags:
+    - kubelet
   yum:
     name: "kubelet-{{ kube_version }}"
     state: latest
@@ -10,11 +12,15 @@
     state: present
 
 - name: "Update 10-kubeadm.conf"
+  tags:
+    - kubelet
   copy:
     src: 10-kubeadm.conf
     dest: /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 - name: "Create  /etc/docker/daemon.json"
+  tags:
+    - kubelet
   copy:
     content: |
       {
@@ -23,16 +29,22 @@
     dest:  /etc/docker/daemon.json
 
 - name: "Reload deamon"
+  tags:
+    - kubelet
   systemd:
     daemon_reload: yes
 
 - name: Restart docker
+  tags:
+    - kubelet
   service:
     name: docker
     enabled: yes
     state: restarted
 
 - name: Restart kubelet
+  tags:
+    - kubelet
   service:
     name: kubelet
     enabled: yes
