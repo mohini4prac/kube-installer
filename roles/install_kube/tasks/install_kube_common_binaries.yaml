@@ -24,7 +24,7 @@
   copy:
     content: |
       {
-      "exec-opts": ["native.cgroupdriver=systemd"]
+      "exec-opts": ["native.cgroupdriver=cgroupfs"]
       }
     dest:  /etc/docker/daemon.json
 
