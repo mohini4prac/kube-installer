@@ -3,3 +3,7 @@
     name: "kubectl-{{ kube_version }}"
     state: present
     allow_downgrade: yes
+- name: "Add kubelet config file"
+  copy:
+    src: kubeadm-kubelet.yaml
+    dest: /root/kubeadm-kubelet.yaml
