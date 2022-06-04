@@ -6,3 +6,6 @@
     - name: "Install Docker"
       include_role:
         name: install_docker
+    - name: "Install Kubernetes"
+      include_role:
+        name: install_kube_master
