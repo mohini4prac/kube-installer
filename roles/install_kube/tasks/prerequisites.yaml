@@ -31,12 +31,8 @@
     gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
     gpgcheck: yes
 
-- name: "Stop firewalld"
+- name: "Stop & disable firewalld"
   service:
     name: firewalld
     state: stopped
-
-- name: "Disable firewalld"
-  sysctl:
-    name: firewalld
-    state: absent
+    enabled: False
