@@ -1,0 +1,16 @@
+- name: install kubelet
+  yum:
+    name: "kubelet-{{ kube_version }}"
+    state: present
+    update_cache: true
+
+- name: install kubeadm
+  yum:
+    name: "kubeadm-{{ kube_version }}"
+    state: present
+
+- name: start kubelet
+  service:
+    name: kubelet
+    enabled: yes
+    state: started

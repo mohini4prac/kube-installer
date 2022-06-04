@@ -1,11 +1,34 @@
 ---
-- name: "Install Docker and Docker Compose on CentOS "
+- name: "Install Docker Kubernetes on CentOS "
   hosts: all
   become: true
   tasks:
     - name: "Install Docker"
       include_role:
-        name: install_docker
-    - name: "Install Kubernetes"
+        name: install_kube
+        tasks_from: install_docker.yaml
+    - name: "Prerequisites to install kubernetes"
       include_role:
-        name: install_kube_master
+        name: install_kube
+        tasks_from: prerequisites.yaml
+    - name: "Install kube binaries"
+      include_role:
+        name: install_kube
+        tasks_from: install_kube_master_binaries.yaml
+
+- name: "Install Docker Kubernetes on CentOS "
+  hosts: workers
+  become: true
+  tasks:
+    - name: "Install Docker"
+      include_role:
+        name: install_kube
+        tasks_from: install_docker.yaml
+    - name: "Prerequisites to install kubernetes"
+      include_role:
+        name: install_kube
+        tasks_from: prerequisites.yaml
+    - name: "Install kube binaries"
+      include_role:
+        name: install_kube
+        tasks_from: install_kube_worker_binaries.yaml
