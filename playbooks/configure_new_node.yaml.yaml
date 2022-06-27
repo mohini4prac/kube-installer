@@ -5,3 +5,7 @@
     - name: "Start worker configuration"
       debug:
         msg: "Starting worker configuration"
+    - name: "Copy necessary files"
+      copy:
+        src: "/etc/hosts"
+        dest: "/etc/hosts"
