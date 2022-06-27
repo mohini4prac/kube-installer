@@ -1,0 +1,59 @@
+- name: install kubelet
+  tags:
+    - kubelet
+  yum:
+    name: "kubelet-{{ kube_version }}"
+    state: latest
+    update_cache: true
+
+- name: install kubeadm
+  yum:
+    name: "kubeadm-{{ kube_version }}"
+    state: present
+
+- name: "Update 10-kubeadm.conf"
+  tags:
+    - kubelet
+  copy:
+    src: 10-kubeadm.conf
+    dest: /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+- name: "Create  /etc/docker/daemon.json"
+  tags:
+    - kubelet
+  copy:
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=cgroupfs"]
+      }
+    dest:  /etc/docker/daemon.json
+
+- name: "Reload deamon"
+  tags:
+    - kubelet
+  systemd:
+    daemon_reload: yes
+
+- name: Restart docker
+  tags:
+    - kubelet
+  service:
+    name: docker
+    enabled: yes
+    state: restarted
+
+- name: "Work around for containerd"
+  block:
+    - name: "Remove /etc/containerd/config.toml"
+      file:
+        path: /etc/containerd/config.toml
+        state: absent
+    - name: "Restart  containerd"
+      service:
+        name: containerd
+        state: restarted
+
+- name: "Install bash completion"
+  yum:
+    name: "bash-completion"
+    state: present
