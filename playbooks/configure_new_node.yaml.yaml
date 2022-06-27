@@ -1,0 +1,7 @@
+---
+- name: "Configure new hosts"
+  hosts: worker
+  tasks:
+    - name: "Start worker configuration"
+      debug:
+        msg: "Starting worker configuration"

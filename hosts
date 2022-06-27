@@ -4,3 +4,4 @@ master ansible_host=master ansible_user=root
 [workers]
 worker1 ansible_host=worker1 ansible_user=root
 worker2 ansible_host=worker2 ansible_user=root
+worker3 ansible_host=worker2 ansible_user=root
