@@ -17,12 +17,14 @@
     name: net.bridge.bridge-nf-call-ip6tables
     value: 1
     state: present
+  ignore_errors: yes
 
 - name: ensure net.bridge.bridge-nf-call-iptables is set to 1
   sysctl:
     name: net.bridge.bridge-nf-call-iptables
     value: 1
     state: present
+  ignore_errors: yes
 
 - name: "Stop & disable firewalld"
   service:
