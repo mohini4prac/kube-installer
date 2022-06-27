@@ -1,2 +1,2 @@
 [worker]
-worker3 ansible_host=worker2 ansible_user=root
+worker3 ansible_host=worker3 ansible_user=root
