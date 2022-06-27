@@ -2,10 +2,15 @@
 - name: "Configure new hosts"
   hosts: worker
   tasks:
-    - name: "Start worker configuration"
-      debug:
-        msg: "Starting worker configuration"
-    - name: "Copy necessary files"
-      copy:
-        src: "/etc/hosts"
-        dest: "/etc/hosts"
+  - name: "Disable swap,firewalld and configure ip tables"
+    include_role:
+      name: configure_worker_nodes
+      tasks_from: prerequisites
+  - name: "Install containerd"
+    include_role:
+      name: configure_worker_nodes
+      tasks_from: install_containerd
+  - name: "Install kubelet"
+    include_role:
+      name: configure_worker_nodes
+      tasks_from: install_kubelet
