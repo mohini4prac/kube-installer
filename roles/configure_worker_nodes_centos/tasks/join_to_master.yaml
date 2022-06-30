@@ -6,6 +6,6 @@
   shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //' >/tmp/hash.txt"
   tags: join
 - name: "Get URL"
-  shell: "kubectl cluster-info|grep control|cut -d '/' -f3 >/tmp/advertise.txt"
+  shell: "kubectl cluster-info|grep control|cut -d '/' -f3>/tmp/advertise.txt"
   register: ADVERTISE_URL
   tags: join
