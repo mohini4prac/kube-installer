@@ -1,19 +1,9 @@
 ---
 - name: "Get TOKEN"
-  command: "/usr/local/bin/kubeadm token create"
+  shell: "/usr/local/bin/kubeadm token create>/tmp/token.txt"
   register: TOKEN
   tags: join
-- name: "Print Token"
-  set_fact:
-    TOKEN: "{{ TOKEN }}"
-  tags: join
 - name: "Get HASH"
-  shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
+  shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //' >/tmp/hash.txt"
   register: HASH
   tags: join
-- name: "Print Hash"
-  set_fact:
-    HASH: "{{ HASH }}"
-  tags: join
-
-
