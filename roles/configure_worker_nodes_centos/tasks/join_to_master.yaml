@@ -1,6 +1,6 @@
 ---
 - name: "Get TOKEN"
-  command: kubeadm create token
+  command: /usr/local/bin/kubeadm create token
   register: TOKEN
   tags: join
 - name: "Print Token"
