@@ -14,3 +14,9 @@
     include_role:
       name: configure_worker_nodes_centos
       tasks_from: install_kubelet
+  - name: "Join to master"
+    include_role:
+      name: configure_worker_nodes_centos
+      tasks_from: join_to_master
+    tags:
+      - join

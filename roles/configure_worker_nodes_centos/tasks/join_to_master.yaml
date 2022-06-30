@@ -1,0 +1,13 @@
+---
+- name: "Get TOKEN"
+  shell: kubeadm create token
+  register: TOKEN
+- name: "Print Token"
+  debug:
+    msg: "{{ TOKEN }}"
+- name: "Get HASH"
+  shell: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+  register: HASH
+- name: "Print Hash"
+  debug:
+    msg: "{{ HASH }}"
