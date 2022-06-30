@@ -33,7 +33,7 @@
       set_fact:
         TOKEN: "{{ lookup('file','/tmp/token.txt') }}"
         HASH: "{{ lookup('file','/tmp/hash.txt') }}"
-        ADVERTISE_URL: "{{ lookup('file','/tmp/advertise.txt') }}"
+        ADVERTISE_URL: "{{ lookup('file','/tmp/advertise.txt').strip().replace(u'\u001b[0m',"") }}"
       tags:
         - join
     - name: "Print facts"
