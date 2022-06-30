@@ -39,6 +39,8 @@
     - name: "Print facts"
       debug:
         msg: "TOKEN - {{ TOKEN }} ,HASH - {{ HASH }} ,ADVERTISE_URL - {{ ADVERTISE_URL }}"
+      tags:
+        - join
     - name: "Join Worker node"
       shell: "kubeadm join --discovery-token {{ TOKEN }} --discovery-token-ca-cert-hash sha256:{{ HASH }} {{ ADVERTISE_URL }}"
       tags:
