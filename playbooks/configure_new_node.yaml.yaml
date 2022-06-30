@@ -14,7 +14,8 @@
     include_role:
       name: configure_worker_nodes_centos
       tasks_from: install_kubelet
----
+
+
 - name: "Configure new hosts"
   hosts: master
   tasks:
