@@ -29,8 +29,7 @@
 - name: "Print Hash and token"
   hosts: worker
   tasks:
-    - name: "Print hash and token"
-      debug:
-        msg: "Hash - {{ HASH }} ,Token - {{ TOKEN }}"
-      tags:
-        - join
+    - name: "Get hash and token"
+      set_fact:
+        TOKEN: lookup('/tmp/token.txt')
+        HASH: lookup('/tmp/hash.txt')
