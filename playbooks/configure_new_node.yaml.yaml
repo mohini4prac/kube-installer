@@ -31,9 +31,9 @@
   tasks:
     - name: "Get hash and token"
       set_fact:
-        TOKEN: lookup('/tmp/token.txt')
-        HASH: lookup('/tmp/hash.txt')
-        ADVERTISE_URL: lookup('/tmp/advertise.txt')
+        TOKEN: "{{ lookup('file','/tmp/token.txt') }}"
+        HASH: "{{ lookup('file','/tmp/hash.txt') }}"
+        ADVERTISE_URL: "{{ lookup('file','/tmp/advertise.txt') }}"
       tags:
         - join
     - name: "Print facts"
