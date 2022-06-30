@@ -8,7 +8,7 @@
     msg: "{{ TOKEN }}"
   tags: join
 - name: "Get HASH"
-  command: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
+  shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
   register: HASH
   tags: join
 - name: "Print Hash"
