@@ -32,5 +32,5 @@
     - name: "Print hash and token"
       debug:
         msg: "Hash - ${HASH} ,Token - ${TOKEN}"
-    tags:
-      - join
+      tags:
+        - join
