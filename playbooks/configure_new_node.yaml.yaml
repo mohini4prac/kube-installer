@@ -25,3 +25,10 @@
       tasks_from: join_to_master
     tags:
       - join
+
+- name: "Print Hash and token"
+  hosts: worker
+  tasks:
+    - name: "Print hash and token"
+      debug:
+        msg: "Hash - ${HASH} ,Token - ${TOKEN}"

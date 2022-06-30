@@ -4,14 +4,16 @@
   register: TOKEN
   tags: join
 - name: "Print Token"
-  debug:
-    msg: "{{ TOKEN }}"
+  set_fact:
+    TOKEN: "{{ TOKEN }}"
   tags: join
 - name: "Get HASH"
   shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
   register: HASH
   tags: join
 - name: "Print Hash"
-  debug:
-    msg: "{{ HASH }}"
+  set_fact:
+    HASH: "{{ HASH }}"
   tags: join
+
+
