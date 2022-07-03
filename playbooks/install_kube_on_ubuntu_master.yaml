@@ -149,9 +149,10 @@
       cp /etc/kubernetes/admin.conf $HOME/.kube/config
     when: '"Ready" in nodes.stdout'
 
-  - name: "Install calico"
+  - name: "Install calico and remove taints on master"
     shell: |
       kubectl create -f https://projectcalico.docs.tigera.io/manifests/tigera-operator.yaml
       kubectl create -f https://projectcalico.docs.tigera.io/manifests/custom-resources.yaml
+      kubectl taint nodes --all node-role.kubernetes.io/master-
     when: '"NotReady" in nodes.stdout'
 
