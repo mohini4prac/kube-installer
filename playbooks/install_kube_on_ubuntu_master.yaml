@@ -159,7 +159,6 @@
     shell: |
       kubectl taint nodes --all node-role.kubernetes.io/master-
       kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
-    when: '"NotReady" in nodes.stdout'
 
   - name: "Bash Completion"
     shell: echo 'source <(kubectl completion bash)' >>~/.bashrc
