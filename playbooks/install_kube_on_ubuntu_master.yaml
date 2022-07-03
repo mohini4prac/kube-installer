@@ -26,3 +26,13 @@
         port: 10259 #kube-scheduler
       - name: "master"
         port: 10257 #kube-controller-manager
+- name: "Remove older versions of container runtimes"
+  apt:
+    name: "{{ items }}"
+    state: absent
+  with_items:
+  - docker
+  - docker-engine
+  - docker.io
+  - containerd
+  - runc
