@@ -50,7 +50,7 @@
       url: https://download.docker.com/linux/ubuntu/gpg
       dest: /etc/apt/keyrings/docker.gpg
       mode: '0644'
-      force: true
+      force: yes
 
   - name: Setup docker repository
     apt_repository:
