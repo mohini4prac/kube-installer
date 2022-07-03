@@ -35,3 +35,12 @@
         - containerd
         - runc
       state: absent
+  - name: "Install ca-certificates,curl,gnupg,lsb-release"
+    apt:
+      name:
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+      state: present
+      update_cache: yes
