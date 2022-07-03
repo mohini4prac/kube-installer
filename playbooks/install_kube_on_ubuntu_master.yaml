@@ -147,7 +147,7 @@
       kubeadm init --apiserver-advertise-address 10.0.2.6 --pod-network-cidr=192.168.0.0/16 >>$HOME/kube_init.log
       mkdir -p $HOME/.kube
       cp /etc/kubernetes/admin.conf $HOME/.kube/config
-    when: "Ready" in nodes.stdout
+    when: '"Ready" in nodes.stdout'
 
   - name: "Install calico"
     shell: |
