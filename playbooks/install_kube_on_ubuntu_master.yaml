@@ -63,6 +63,6 @@
       update_cache: true
   - name: Enable cri plugin for containerd
     replace:
-      path: /etc/containerd/cofig.toml
+      path: /etc/containerd/config.toml
       regexp: '^disabled_plugins'
       replace: '#disabled_plugins'
