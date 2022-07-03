@@ -7,7 +7,7 @@
     wait_for:
       host: "{{ item.name }}"
       port: "{{ item.port }}"
-      state: present         # Port should be open
+      state: absent         # Port is not occupied
       delay: 0               # No wait before first check (sec)
       timeout: 3             # Stop checking after timeout (sec)
     ignore_errors: yes
