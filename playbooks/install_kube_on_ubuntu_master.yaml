@@ -44,6 +44,10 @@
         - lsb-release
       state: present
       update_cache: yes
+  - name: "Create directory for docker repo"
+    file:
+      path: /etc/apt/keyrings
+      state: directory
 
   - name: Add Docker official GPG key
     get_url:
