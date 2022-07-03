@@ -13,14 +13,14 @@
     ignore_errors: yes
     with_items:
       - name: "master"
-        port: 6443
+        port: 6443 #Kubernetes API server
       - name: "master"
-        port: 2379
+        port: 2379 #etcd server client API
       - name: "master"
-        port: 2380
+        port: 2380 #etcd server client API
       - name: "master"
-        port: 10250
+        port: 10250 #Kubelet API
       - name: "master"
-        port: 10259
+        port: 10259 #kube-scheduler
       - name: "master"
-        port: 10257
+        port: 10257 #kube-controller-manager
