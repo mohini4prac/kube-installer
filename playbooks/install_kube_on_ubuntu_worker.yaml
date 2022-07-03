@@ -12,7 +12,7 @@
       shell: "kubectl cluster-info|grep control|cut -d '/' -f3"
       register: ADVERTISE_URL
     - name: "Prepare join script"
-      shell: echo "kubeadm join --discovery-token {{ TOKEN.stdout }} --discovery-token-ca-cert-hash sha256:{{ HASH.stdout }} {{ ADVERTISE_URL.stdout }} >~/join.sh
+      shell: echo "kubeadm join --discovery-token {{ TOKEN.stdout }} --discovery-token-ca-cert-hash sha256:{{ HASH.stdout }} {{ ADVERTISE_URL.stdout }}">~/join.sh
         
 
 - name: "Install Kubernetes on worker node"
