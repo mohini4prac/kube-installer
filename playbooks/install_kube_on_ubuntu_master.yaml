@@ -19,7 +19,9 @@
       - name: "master"
         port: 2380 #etcd server client API
       - name: "master"
-        port: 10250 #Kubelet API
+        port: 10250 #Kubelet API on master
+      - name: "worker"
+        port: 10250 #Kubelet API on worker
       - name: "master"
         port: 10259 #kube-scheduler
       - name: "master"
