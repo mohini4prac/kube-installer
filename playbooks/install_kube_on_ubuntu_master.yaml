@@ -156,3 +156,5 @@
       kubectl taint nodes --all node-role.kubernetes.io/master-
     when: '"NotReady" in nodes.stdout'
 
+  - name: "Bash Completion"
+    shell: echo 'source <(kubectl completion bash)' >>~/.bashrc
