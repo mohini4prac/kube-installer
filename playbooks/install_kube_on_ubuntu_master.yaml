@@ -121,5 +121,4 @@
 
   - name: "Initialize kubernetes cluster"
     shell: |
-      ipaddr=`cat /etc/hosts|awk '{ print $1 }'`
-      kubeadm init --apiserver-advertise-address $ipaddr --pod-network-cidr=192.168.0.0/16
+      kubeadm init --apiserver-advertise-address 10.0.2.6 --pod-network-cidr=192.168.0.0/16
