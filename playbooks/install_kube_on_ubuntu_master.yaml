@@ -118,3 +118,8 @@
       name: kubeadm=1.19.1-00
       state: present
       update_cache: true
+
+  - name: "Initialize kubernetes cluster"
+    shell: |
+      ipaddr=`cat /etc/hosts|awk '{ print $1 }'`
+      kubeadm init --apiserver-advertise-address $ipaddr --pod-network-cidr=192.168.0.0/16
