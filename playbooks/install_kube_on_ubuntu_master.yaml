@@ -56,7 +56,10 @@
       mode: '0644'
       force: no
 
+  - name: Get ubuntu release
+    shell: lsb_release -cs
+    register: lsb_release
   - name: Setup docker repository
     apt_repository:
       filename: docker
-      repo: 'deb [signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu'
+      repo: 'deb [signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ lsb_release }} stable'
