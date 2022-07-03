@@ -3,7 +3,7 @@
   hosts: master
   tasks:
     - name: "Get TOKEN"
-      shell: "/usr/local/bin/kubeadm token create"
+      shell: "kubeadm token create"
       register: TOKEN
     - name: "Get HASH"
       shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
