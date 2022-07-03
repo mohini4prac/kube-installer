@@ -59,6 +59,7 @@
   - name: Get ubuntu release
     shell: lsb_release -cs
     register: lsb_release
+
   - name: Setup docker repository
     apt_repository:
       filename: docker
