@@ -85,22 +85,36 @@
     command: swapoff -a
     when: ansible_swaptotal_mb > 0
 
-  - name: ensure net.bridge.bridge-nf-call-ip6tables is set to 1
-    sysctl:
-      name: net.bridge.bridge-nf-call-ip6tables
-      value: 1
+  - name: Install bash completion
+    apt:
+      name: bash-completion
       state: present
-    ignore_errors: yes
 
-  - name: ensure net.bridge.bridge-nf-call-iptables is set to 1
-    sysctl:
-      name: net.bridge.bridge-nf-call-iptables
-      value: 1
+  - name: add Kubernetes apt-key for APT repository
+    apt_key:
+      url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
       state: present
-    ignore_errors: yes
 
-  - name: "Stop & disable firewalld"
-    service:
-      name: firewalld
-      state: stopped
-      enabled: False
+  - name: add Kubernetes APT repository
+    apt_repository:
+      repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+      state: present
+      filename: 'kubernetes'
+
+  - name: install kubectl
+    apt:
+      name: kubectl=1.19
+      state: present
+      force: yes
+
+  - name: install kubelet
+    apt:
+      name: kubelet=1.19
+      state: present
+      update_cache: true
+
+  - name: install kubeadm
+    apt:
+      name: kubeadm=1.19
+      state: present
+      update_cache: true
