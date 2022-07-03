@@ -149,24 +149,16 @@
       cp /etc/kubernetes/admin.conf $HOME/.kube/config
     when: '"Ready" in nodes.stdout'
 
+  - name: "Fix for Calico requires net.ipv4.conf.all.rp_filter to be set to 0 or 1"
+    replace:
+      path: /etc/sysctl.d/10-network-security.conf
+      regexp: net.ipv4.conf.all.rp_filter=.*
+      replace: net.ipv4.conf.all.rp_filter=1
+
   - name: "Install calico and remove taints on master"
     shell: |
       kubectl taint nodes --all node-role.kubernetes.io/master-
-      kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
-      kubectl create -f https://docs.projectcalico.org/archive/v3.21/manifests/tigera-operator.yaml
-      cat <<EOF | kubectl apply -f -
-      apiVersion: operator.tigera.io/v1
-      kind: Installation
-      metadata:
-        name: default
-      spec:
-        calicoNetwork:
-          containerIPForwarding: Enabled
-          ipPools:
-          - cidr: 198.19.16.0/21
-            natOutgoing: Enabled
-            encapsulation: None
-      EOF
+      kubectl apply -f https://docs.projectcalico.org/v3.19/manifests/calico.yaml
     when: '"NotReady" in nodes.stdout'
 
   - name: "Bash Completion"
