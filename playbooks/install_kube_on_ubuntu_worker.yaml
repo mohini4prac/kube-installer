@@ -1,5 +1,4 @@
 ---
----
 - name: "Install Kubernetes on master node"
   hosts: master
   tasks:
