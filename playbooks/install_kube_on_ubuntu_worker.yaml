@@ -22,6 +22,7 @@
       copy:
         src: /root/join.sh
         dest: /root/join.sh
+        mode: '0755'
     - name: Check if required ports are open
       wait_for:
         host: "{{ item.name }}"
@@ -136,3 +137,6 @@
         EOF
         # Apply sysctl params without reboot
         sudo sysctl --system
+
+    - name: "Run join command"
+      script: /root/join.sh
