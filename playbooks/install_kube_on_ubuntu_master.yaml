@@ -138,4 +138,6 @@
 
   - name: "Initialize kubernetes cluster"
     shell: |
-      kubeadm init --apiserver-advertise-address 10.0.2.6 --pod-network-cidr=192.168.0.0/16
+      kubeadm init --apiserver-advertise-address 10.0.2.6 --pod-network-cidr=192.168.0.0/16 >>$HOME/kube_init.log
+      mkdir -p $HOME/.kube
+      cp /etc/kubenetes/admin.conf $HOME/.kube/config
