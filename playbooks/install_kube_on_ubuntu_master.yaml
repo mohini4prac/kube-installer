@@ -147,7 +147,7 @@
       kubeadm init --apiserver-advertise-address 10.0.2.6 --pod-network-cidr=192.168.0.0/16 >>$HOME/kube_init.log
       mkdir -p $HOME/.kube
       cp /etc/kubernetes/admin.conf $HOME/.kube/config
-    when: '"Ready" in nodes.stdout'
+    when: '"Ready" not in nodes.stdout'
 
   - name: "Fix for Calico requires net.ipv4.conf.all.rp_filter to be set to 0 or 1"
     replace:
@@ -158,7 +158,7 @@
   - name: "Install calico and remove taints on master"
     shell: |
       kubectl taint nodes --all node-role.kubernetes.io/master-
-      kubectl apply -f https://docs.projectcalico.org/v3.19/manifests/calico.yaml
+      kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
     when: '"NotReady" in nodes.stdout'
 
   - name: "Bash Completion"
