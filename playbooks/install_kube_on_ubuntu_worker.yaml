@@ -1,0 +1,143 @@
+---
+---
+- name: "Install Kubernetes on master node"
+  hosts: master
+  tasks:
+    - name: "Get TOKEN"
+      shell: "/usr/local/bin/kubeadm token create"
+      register: TOKEN
+    - name: "Get HASH"
+      shell: "openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
+      register: HASH
+    - name: "Get URL"
+      shell: "kubectl cluster-info|grep control|cut -d '/' -f3"
+      register: ADVERTISE_URL
+    - name: "Prepare join script"
+      shell: |
+        echo "kubeadm join  \
+        --discovery-token {{ TOKEN.stdout }} \
+        --discovery-token-ca-cert-hash sha256:{{ HASH.stdout }}  \
+        {{ ADVERTISE_URL.stdout }} >~/join.sh
+        
+
+- name: "Install Kubernetes on worker node"
+  hosts: worker
+  tasks:
+    - name: copy join script
+      copy:
+        src: /root/join.sh
+        dest: /root/join.sh
+    - name: Check if required ports are open
+      wait_for:
+        host: "{{ item.name }}"
+        port: "{{ item.port }}"
+        state: absent         # Port is not occupied
+        delay: 0               # No wait before first check (sec)
+        timeout: 3             # Stop checking after timeout (sec)
+      ignore_errors: yes
+      with_items:
+        - name: "worker"
+          port: 10250 #Kubelet API on worker
+    - name: "Remove older versions of container runtimes"
+      apt:
+        name:
+          - docker
+          - docker-engine
+          - docker.io
+          - containerd
+          - runc
+        state: absent
+    - name: "Install ca-certificates,curl,gnupg,lsb-release"
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+        update_cache: yes
+    - name: "Create directory for docker repo"
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: Update apt and install containerd
+      apt:
+        name: containerd.io
+        state: latest
+        update_cache: true
+    - name: Enable cri plugin for containerd
+      replace:
+        path: /etc/containerd/config.toml
+        regexp: '^disabled_plugins'
+        replace: '#disabled_plugins'
+      register: updated_containerd
+    - name: Restart containerd
+      service:
+        name: containerd
+        state: restarted
+      when: updated_containerd is changed
+    - name: Remove swapfile from /etc/fstab
+      mount:
+        name: "{{ item }}"
+        fstype: swap
+        state: absent
+      with_items:
+        - swap
+        - none
+
+    - name: Disable swap
+      command: swapoff -a
+      when: ansible_swaptotal_mb > 0
+
+    - name: Install bash completion
+      apt:
+        name: bash-completion
+        state: present
+
+    - name: add Kubernetes apt-key for APT repository
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: add Kubernetes APT repository
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+        filename: 'kubernetes'
+
+    - name: install kubelet
+      apt:
+        name: kubelet=1.19.1-00
+        state: present
+        update_cache: true
+
+    - name: install kubeadm
+      apt:
+        name: kubeadm=1.19.1-00
+        state: present
+        update_cache: true
+
+    - name: "IP tables settings"
+      shell: |
+        cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+        overlay
+        br_netfilter
+        EOF
+        sudo modprobe overlay
+        sudo modprobe br_netfilter
+        # sysctl params required by setup, params persist across reboots
+        cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+        net.bridge.bridge-nf-call-iptables  = 1
+        net.bridge.bridge-nf-call-ip6tables = 1
+        net.ipv4.ip_forward                 = 1
+        EOF
+        # Apply sysctl params without reboot
+        sudo sysctl --system
