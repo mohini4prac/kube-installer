@@ -65,4 +65,4 @@
   - name: Setup docker repository
     apt_repository:
       filename: docker
-      repo: 'deb [signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu {{ lsb_release.stdout }} stable'
+      repo: 'deb [signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu focal stable'
