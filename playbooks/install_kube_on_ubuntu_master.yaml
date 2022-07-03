@@ -66,3 +66,7 @@
       path: /etc/containerd/config.toml
       regexp: '^disabled_plugins'
       replace: '#disabled_plugins'
+  - name: Restart containerd
+    service:
+      name: containerd
+      state: restarted
