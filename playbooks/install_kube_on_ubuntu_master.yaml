@@ -56,8 +56,13 @@
     apt_repository:
       repo: deb https://download.docker.com/linux/ubuntu focal stable
       state: present
-  - name: Update apt and install docker-ce
+  - name: Update apt and install containerd
     apt:
       name: containerd.io
       state: latest
       update_cache: true
+  - name: Enable cri plugin for containerd
+    replace:
+      path: /etc/containerd/cofig.toml
+      regexp: '^disabled_plugins'
+      replace: '#disabled_plugins'
