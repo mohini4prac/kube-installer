@@ -28,7 +28,7 @@
         port: 10257 #kube-controller-manager
   - name: "Remove older versions of container runtimes"
     apt:
-      name: "{{ items }}"
+      name: "{{ item }}"
       state: absent
     with_items:
     - docker
