@@ -12,17 +12,15 @@
       timeout: 3             # Stop checking after timeout (sec)
     ignore_errors: yes
     with_items:
-      - name: "127.0.0.1"
+      - name: "master"
         port: 6443
-      - name: "127.0.0.1"
+      - name: "master"
         port: 2379
-      - name: "127.0.0.1"
+      - name: "master"
         port: 2380
-      - name: "127.0.0.1"
+      - name: "master"
         port: 10250
-      - name: "127.0.0.1"
+      - name: "master"
         port: 10259
-      - name: "127.0.0.1"
+      - name: "master"
         port: 10257
-      - name: "127.0.0.1"
-        port: 22
